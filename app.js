@@ -13,13 +13,13 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import queryString from 'query-string';
 import dataTools from '@tidepool/data-tools';
-import logMaker from './log';
 import * as CSV from 'csv-string';
 import es from 'event-stream';
+import logMaker from './log';
 
 const MemoryStore = require('memorystore')(session);
 
-const log = logMaker('app.js', { level: process.env.DEBUG_LEVEL || 'info' });
+const log = logMaker('app.js', { level: process.env.DEBUG_LEVEL || 'debug' });
 
 function maybeReplaceWithContentsOfFile(obj, field) {
   const potentialFile = obj[field];
@@ -79,6 +79,8 @@ function getPatientNameFromProfile(profile) {
   return (profile.patient.fullName) ? profile.patient.fullName : profile.fullName;
 }
 
+log.info('set engine');
+
 app.set('view engine', 'pug');
 app.use(session({
   store: new MemoryStore({
@@ -95,6 +97,8 @@ app.use(flash());
 app.use(bodyParser.urlencoded({
   extended: false,
 }));
+
+log.info('config');
 
 // The Health Check
 app.use('/export/status', require('express-healthcheck')());
@@ -192,7 +196,7 @@ app.get('/export/:userid', auth, async (req, res) => {
 
       dataResponse.data
         .pipe(res);
-    } else if(req.query.format === 'xlsx') {
+    } else if (req.query.format === 'xlsx') {
       res.attachment('TidepoolExport.xlsx');
 
       dataResponse.data
@@ -208,8 +212,8 @@ app.get('/export/:userid', auth, async (req, res) => {
         .pipe(dataTools.jsonParser())
         .pipe(dataTools.tidepoolProcessor())
         .pipe(es.mapSync(
-            data => CSV.stringify(dataTools.allFields.map(field => data[field] || '')),
-          ))
+          data => CSV.stringify(dataTools.allFields.map(field => data[field] || '')),
+        ))
         .pipe(res);
     }
 
@@ -243,8 +247,9 @@ app.get('/', (req, res) => {
   res.redirect('/export/patients');
 });
 
+log.info('starting server');
 if (config.httpPort) {
-  app.server = http.createServer(app).listen(config.httpPort, () => {
+  app.server = http.createServer(app).listen(config.httpPort, 'localhost', () => {
     log.info(`Listening for HTTP on ${config.httpPort}`);
   });
 }
