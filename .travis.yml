@@ -3,7 +3,7 @@ sudo: false
 language: node_js
 
 node_js:
-  - 10.9.0
+  - 10.15.3
   - node
 
 cache: yarn
@@ -30,7 +30,7 @@ deploy:
   # builds of your repo's master branch (e.g., after you merge a PR).
   on:
     tags: true
-    node_js: 10.9.0
+    node_js: 10.15.3
   provider: s3
   # You can refer to environment variables from Travis repo settings!
   access_key_id: $AWS_ACCESS_KEY_ID
