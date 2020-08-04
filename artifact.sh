@@ -4,4 +4,4 @@ wget -q -O artifact_node.sh 'https://raw.githubusercontent.com/mdblp/tools/dblp/
 chmod +x artifact_node.sh
 
 . ./version.sh
-./artifact_node.sh
+BUILD_SOUP="true" ./artifact_node.sh
