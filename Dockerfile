@@ -14,6 +14,7 @@ RUN apk --no-cache update && \
 FROM base as dependencies
 COPY package.json .
 COPY package-lock.json .
+COPY .npmrc .
 RUN \
   # Build and separate all dependancies required for production
   npm install --production && cp -R node_modules production_node_modules \
