@@ -8,7 +8,7 @@
   },
   "scripts": {
     "lint": "eslint --cache --format=node_modules/eslint-formatter-pretty .",
-    "lint-fix": "yarn run lint -- --fix",
+    "lint-fix": "npm run lint -- --fix",
     "start": "node -r esm ./app.js",
     "audit": "./node_modules/.bin/audit-ci --moderate --registry=https://registry.npmjs.org/",
     "build-soup": "release-helper gen-dep-report doc/${npm_package_name}-${npm_package_version}-soup.md"
