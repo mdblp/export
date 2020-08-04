@@ -11,7 +11,8 @@
     "lint-fix": "npm run lint -- --fix",
     "start": "node -r esm ./app.js",
     "audit": "./node_modules/.bin/audit-ci --moderate --registry=https://registry.npmjs.org/",
-    "build-soup": "release-helper gen-dep-report doc/${npm_package_name}-${npm_package_version}-soup.md"
+    "prebuild-soup": "mkdir -p doc/soup",
+    "build-soup": "release-helper gen-dep-report doc/soup/${npm_package_name}-${npm_package_version}-soup.md"
   },
   "license": "BSD-2-Clause",
   "description": "Service to export data from the Tidepool to various file formats",

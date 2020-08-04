@@ -18,6 +18,9 @@ install:
 #       - $(git ls-files -o deploy/*/*-*.tar.gz | tr "\n" ":")
 #     target_paths:
 #       - /
+env:
+  global:
+    - BUILD_SOUP=true
 
 deploy:
   # Control deployment by setting a value for `on`. Setting the `branch`
@@ -51,7 +54,7 @@ deploy:
     region: $AWS_DEFAULT_REGION
     bucket: com.diabeloop.yourloops.doc
     skip_cleanup: true
-    local_dir: doc
+    local_dir: doc/soup
     upload_dir: soup/export
     cache_control: "max-age=21600"
 
