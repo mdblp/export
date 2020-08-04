@@ -10,7 +10,7 @@
     "lint": "eslint --cache --format=node_modules/eslint-formatter-pretty .",
     "lint-fix": "yarn run lint -- --fix",
     "start": "node -r esm ./app.js",
-    "audit": "./node_modules/.bin/audit-ci --moderate",
+    "audit": "./node_modules/.bin/audit-ci --moderate --registry=https://registry.npmjs.org/",
     "build-soup": "release-helper gen-dep-report doc/${npm_package_name}-${npm_package_version}-soup.md"
   },
   "license": "BSD-2-Clause",
