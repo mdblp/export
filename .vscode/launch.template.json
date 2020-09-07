@@ -14,7 +14,7 @@
                 "${workspaceFolder}/**/*.js",
             ],
             "env": {
-                "EXPORT_API_HOST": "https://api-ext.your-loops.com",
+                "TIDE_WHISPERER_SERVICE": "http://localhost:9127",
                 "EXPORT_HTTP_PORT": "9300",
                 // "API_HOST":"http://localhost:8009",
                 "DEBUG_LEVEL": "debug",
