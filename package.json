@@ -7,7 +7,7 @@
     "url": "https://github.com/tidepool-org/data-export-service-app.git"
   },
   "scripts": {
-    "lint": "eslint --cache --format=node_modules/eslint-formatter-pretty .",
+    "lint": "eslint --format=node_modules/eslint-formatter-pretty .",
     "lint-fix": "npm run lint -- --fix",
     "start": "node -r esm ./app.js",
     "audit": "./node_modules/.bin/audit-ci --moderate --registry=https://registry.npmjs.org/",

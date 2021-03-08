@@ -91,7 +91,9 @@ log.info('config');
 // The Health Check
 app.use('/export/status', require('express-healthcheck')());
 
+let nExportInProgress = 0;
 app.get('/export/:userid', async (req, res) => {
+  nExportInProgress += 1;
   // Set the timeout for the request. Make it 10 seconds longer than
   // our configured timeout to give the service time to cancel the API data
   // request, and close the outgoing data stream cleanly.
@@ -210,15 +212,26 @@ app.get('/export/:userid', async (req, res) => {
       res.status(500).send('Server error while processing data. Please contact Tidepool Support.');
       log.error(`500: ${error}`);
     }
+  } finally {
+    nExportInProgress -= 1;
   }
 });
 
 function beforeShutdown() {
+  if (nExportInProgress < 1) {
+    return Promise.resolve();
+  }
   return new Promise((resolve) => {
     // Ensure that the export request can time out
     // without being forcefully killed
-    setTimeout(resolve, config.exportTimeout + 10000);
+    const timeout = config.exportTimeout + 10000;
+    log.info(`${nExportInProgress} export in progress, shutting down in ${timeout}ms`);
+    setTimeout(resolve, timeout);
   });
+}
+
+function onShutdown() {
+  log.info('Server is shutting down');
 }
 
 function healthCheck() {
@@ -229,7 +242,9 @@ const options = {
   healthChecks: {
     '/export/status': healthCheck,
   },
+  signals: ['SIGTERM', 'SIGINT'],
   beforeShutdown,
+  onShutdown,
 };
 
 if (config.httpPort) {
