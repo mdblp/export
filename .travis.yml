@@ -3,10 +3,10 @@ sudo: false
 language: node_js
 
 node_js:
-  - 10
+  - 12
 
 install:
-  - npm install -g npm@latest
+  - npm install -g npm@6
   - npm install
   - npm install --save-dev ci-toolbox@latest
 

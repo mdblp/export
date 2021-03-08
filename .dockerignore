@@ -1,5 +1,15 @@
-node_modules
-npm-debug.log
 .git
 .gitignore
+.artifactignore
+.eslintcache
+.travis.yml
+.vscode
+artifact.sh
+artifact_node.sh
+build.sh
+start.sh
+CHANGELOG.md
+LICENSE
+node_modules
+npm-debug.log
 *.log
