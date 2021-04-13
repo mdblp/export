@@ -6,6 +6,7 @@ Service to export YourLoops data in selected formats, either csv, json or xls.
 - YLP-536 Listen to SIGTERM & SIGINT signals & quickly shutdown when there is no export in progress.
 ### Engineering
 - YLP-537 Update to nodejs v12
+- Replace Travis with Jenkins
 
 ## 1.5.1 - 2020-10-29
 ### Engineering

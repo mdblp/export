@@ -8,8 +8,10 @@ artifact.sh
 artifact_node.sh
 build.sh
 start.sh
+buildDoc.sh
 CHANGELOG.md
 LICENSE
 node_modules
 npm-debug.log
 *.log
+doc/*

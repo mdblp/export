@@ -1,3 +1,5 @@
 node_modules
 personal
 .eslintcache
+doc/openapi
+doc/soup

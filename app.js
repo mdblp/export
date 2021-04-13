@@ -1,5 +1,58 @@
 /* eslint no-restricted-syntax: [0, "ForInStatement"] */
 
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     tidepoolUserAuth:
+ *       type: apiKey
+ *       in: header
+ *       name: x-tidepool-session-token
+ *     tidepoolServerAuth:
+ *       type: apiKey
+ *       in: header
+ *       name: x-tidepool-session-token
+ *   responses:
+ *     InternalError:
+ *       description: An internal problem occurred
+ *       content:
+ *         text/plain:
+ *           schema:
+ *             type: string
+ *     PageNotFound:
+ *       description: The requested document is not found
+ *       content:
+ *         text/plain:
+ *           schema:
+ *             type: string
+ *     Unauthorized:
+ *       description: The requester is not authorized to perform this request
+ *       content:
+ *         text/plain:
+ *           schema:
+ *             type: string
+ *     BadRequest:
+ *       description: The request is not correct
+ *       content:
+ *         text/plain:
+ *           schema:
+ *             type: string
+ *     NotImplemented:
+ *       description: The method is not implemented
+ *       content:
+ *         text/plain:
+ *           schema:
+ *             type: string
+ *   schemas:
+ *     ServiceStatus:
+ *       type: object
+ *       properties:
+ *         status:
+ *           type: string
+ *       example:
+ *         status: "ok"
+ */
+
 import _ from 'lodash';
 import fs from 'fs';
 import http from 'http';
@@ -88,6 +141,21 @@ app.use(bodyParser.urlencoded({
 
 log.info('config');
 
+
+/**
+ * @swagger
+ * /export/status:
+ *  get:
+ *    summary: Request Service Status
+ *    description: This route returns 200 with software version and list of up/down dependencies
+ *    responses:
+ *      200:
+ *        description: Service Status with software version and list of up/down dependencies
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/ServiceStatus'
+ */
 // The Health Check
 app.use('/export/status', require('express-healthcheck')());
 

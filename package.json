@@ -10,12 +10,15 @@
     "lint": "eslint *.js",
     "lint-fix": "npm run lint -- --fix",
     "start": "node -r esm ./app.js",
-    "audit": "audit-ci --moderate --registry=https://registry.npmjs.org/",
+    "security-checks": "npm audit --production --registry=https://registry.npmjs.org/ --audit-level=moderate",
+    "build-ci": "npm install && npm run lint && npm run security-checks",
+    "prebuild-doc": "mkdir -p doc/openapi",
+    "build-doc": "swagger-jsdoc -o  doc/openapi/${npm_package_name}-${npm_package_version}-swagger.json -d swaggerDef.js app.js",
     "prebuild-soup": "mkdir -p doc/soup",
     "build-soup": "release-helper gen-dep-report doc/soup/${npm_package_name}-${npm_package_version}-soup.md"
   },
   "license": "BSD-2-Clause",
-  "description": "Service to export data from the Tidepool to various file formats",
+  "description": "Service to export data from Backloops to various file formats",
   "author": "Lennart Goedhart <lennart@tidepool.org>",
   "private": false,
   "engines": {
@@ -39,10 +42,10 @@
   "devDependencies": {
     "@babel/core": "^7.13.8",
     "@babel/eslint-parser": "^7.13.8",
-    "audit-ci": "^3.1.1",
     "eslint": "^7.0.0",
     "eslint-plugin-import": "^2.0.0",
     "eslint-plugin-lodash": "^7.0.0",
-    "eslint-plugin-promise": "^4.0.0"
+    "eslint-plugin-promise": "^4.0.0",
+    "swagger-jsdoc": "^6.1.0"
   }
 }
