@@ -22,6 +22,7 @@ pipeline {
             }
             steps {
                 withCredentials([string(credentialsId: 'nexus-token', variable: 'NEXUS_TOKEN')]) {
+                    sh "npm install -g npm@6"
                     sh "npm run build-ci"
                 }
             }
