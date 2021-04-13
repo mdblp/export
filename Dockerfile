@@ -6,7 +6,7 @@ WORKDIR /app
 RUN apk --no-cache update && \
     apk --no-cache upgrade && \
     apk add --no-cache --virtual .build-dependencies python make g++ && \
-    npm install -g npm@6 && \
+    npm install -g npm@latest && \
     mkdir -p node_modules && chown -R node:node .
 
 
