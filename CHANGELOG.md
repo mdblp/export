@@ -1,7 +1,7 @@
 # Export
 Service to export YourLoops data in selected formats, either csv, json or xls.
 
-## Unreleased
+## 1.6.0 - 2021-05-13
 ### Changed
 - YLP-536 Listen to SIGTERM & SIGINT signals & quickly shutdown when there is no export in progress.
 ### Engineering
