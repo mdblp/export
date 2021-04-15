@@ -23,6 +23,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'nexus-token', variable: 'NEXUS_TOKEN')]) {
                     sh "npm version"
+                    sh "npm install"
                     sh "npm run build-ci"
                     stash name: "node_modules", includes: "node_modules/**"
                 }
