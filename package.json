@@ -11,7 +11,7 @@
     "lint-fix": "npm run lint -- --fix",
     "start": "node -r esm ./app.js",
     "security-checks": "npm audit --production --registry=https://registry.npmjs.org/ --audit-level=moderate",
-    "build-ci": "npm install && npm run lint && npm run security-checks",
+    "build-ci": "npm run lint && npm run security-checks",
     "build-doc": "swagger-jsdoc -d swaggerDef.js app.js",
     "prebuild-soup": "mkdir -p doc/soup",
     "build-soup": "release-helper gen-dep-report doc/soup/${npm_package_name}-${npm_package_version}-soup.md"

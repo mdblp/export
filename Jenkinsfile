@@ -23,6 +23,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'nexus-token', variable: 'NEXUS_TOKEN')]) {
                     sh "npm version"
+                    sh "npm install"
                     sh "npm run build-ci"
                     stash name: "node_modules", includes: "node_modules/**"
                 }
@@ -37,16 +38,6 @@ pipeline {
         }
         stage('Documentation') {
             steps {
-                /*
-                withCredentials([string(credentialsId: 'nexus-token', variable: 'NEXUS_TOKEN')]) {
-                    script {
-                        docker.image('docker.ci.diabeloop.eu/ci-toolbox').inside() {
-                            /* Be sure node_modules is present, to prevent genDocumentation() to crash * /
-                            sh 'npm install'
-                        }
-                    }
-                }
-                */
                 unstash "node_modules"
                 genDocumentation()
                 dir("output") {
