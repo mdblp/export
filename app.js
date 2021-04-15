@@ -61,11 +61,11 @@ import axios from 'axios';
 import express from 'express';
 import bodyParser from 'body-parser';
 import queryString from 'query-string';
-import dataTools from '@tidepool/data-tools';
 import * as CSV from 'csv-string';
 import es from 'event-stream';
 import { Registry, Counter, collectDefaultMetrics } from 'prom-client';
 import { createTerminus } from '@godaddy/terminus';
+import dataTools from './data-tools';
 import logMaker from './log';
 
 const log = logMaker('app.js', { level: process.env.DEBUG_LEVEL || 'debug' });
