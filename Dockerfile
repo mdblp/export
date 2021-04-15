@@ -7,6 +7,7 @@ RUN apk --no-cache update && \
     apk --no-cache upgrade && \
     apk add --no-cache --virtual .build-dependencies python make g++ && \
     npm install -g npm@latest && \
+    rm -rf /usr/local/lib/node_modules/npm/node_modules/node-gyp/test && \
     mkdir -p node_modules && chown -R node:node .
 
 
