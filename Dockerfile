@@ -7,7 +7,6 @@ RUN apk --no-cache update && \
     apk --no-cache upgrade && \
     apk add --no-cache --virtual .build-dependencies python make g++ && \
     npm install -g npm@latest && \
-    rm -rf /usr/local/lib/node_modules/npm/node_modules/node-gyp/test && \
     mkdir -p node_modules && chown -R node:node .
 
 
@@ -34,7 +33,9 @@ COPY --from=dependencies /app/production_node_modules ./node_modules
 # @godaddy/terminus has an example folder with a package.json file
 # This file refers to a version of Mongoose with CVE that makes aquascanner fail
 # We just remove here this unused example folder
-RUN rm -rf /app/node_modules/@godaddy/terminus/example
+# Almost same for node-gyp
+RUN rm -rf /app/node_modules/@godaddy/terminus/example \
+      /usr/local/lib/node_modules/npm/node_modules/node-gyp
 # Copy source files
 COPY --chown=node:node . .
 USER node
