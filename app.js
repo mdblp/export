@@ -4,11 +4,7 @@
  * @swagger
  * components:
  *   securitySchemes:
- *     tidepoolUserAuth:
- *       type: apiKey
- *       in: header
- *       name: x-tidepool-session-token
- *     tidepoolServerAuth:
+ *     tidepoolAuth:
  *       type: apiKey
  *       in: header
  *       name: x-tidepool-session-token
@@ -51,6 +47,15 @@
  *           type: string
  *       example:
  *         status: "ok"
+ *     Datum:
+ *      type: object
+ *      properties:
+ *        type: string
+ *        time: string
+ *     Data:
+ *      type: array
+ *      items:
+ *        $ref: "#/components/schemas/Datum"
  */
 
 import _ from 'lodash';
@@ -70,8 +75,8 @@ import dataTools from './data-tools.js';
 import logMaker from './log.js';
 
 const log = logMaker('app.js', { level: process.env.DEBUG_LEVEL || 'debug' });
-
 const register = new Registry();
+let nExportInProgress = 0;
 
 collectDefaultMetrics({ register });
 
@@ -124,14 +129,14 @@ app.get('/metrics', async (req, res) => {
 });
 
 function buildHeaders(request) {
+  let headers = {};
   if (request.headers['x-tidepool-session-token']) {
-    return {
-      headers: {
-        'x-tidepool-session-token': request.headers['x-tidepool-session-token'],
-      },
-    };
+    headers['x-tidepool-session-token'] = request.headers['x-tidepool-session-token'];
   }
-  return {};
+  if (request.headers['x-tidepool-trace-session']) {
+    headers['x-tidepool-trace-session'] = request.headers['x-tidepool-trace-session'];
+  }
+  return { headers };
 }
 
 log.info('set engine');
@@ -141,7 +146,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 log.info('config');
-
 
 /**
  * @swagger
@@ -157,10 +161,55 @@ log.info('config');
  *            schema:
  *              $ref: '#/components/schemas/ServiceStatus'
  */
-// The Health Check
 app.use('/export/status', healthcheck());
 
-let nExportInProgress = 0;
+/**
+ * @swagger
+ * /export/{userid}:
+ *  get:
+ *    summary: Export patient data
+ *    description: Route use to export patient medical data
+ *    security:
+ *      - tidepoolAuth:
+ *        -read: Data
+ *    parameters:
+ *      - in: path
+ *        name: bgUnits
+ *        required: false
+ *        description: Transform bg value
+ *        schema:
+ *          type: string
+ *          enum:
+ *            - 'mmol/L'
+ *            - 'mg/dL'
+ *      - in: path
+ *        name: startDate
+ *        require: false
+ *        description: Restrict data with datum time > specified date
+ *        schema:
+ *          type: string
+ *          format: date-time
+ *      - in: path
+ *        name: endDate
+ *        require: false
+ *        description: Restrict data with datum time < specified date
+ *        schema:
+ *          type: string
+ *          format: date-time
+ *      - in: path
+ *        name: restricted_token
+ *        require: false
+ *        description: Parameter to pass to tide-whisperer
+ *        schema:
+ *          type: string
+ *    responses:
+ *      200:
+ *        description: Data exported
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Data'
+ */
 app.get('/export/:userid', async (req, res) => {
   nExportInProgress += 1;
   // Set the timeout for the request. Make it 10 seconds longer than
@@ -186,7 +235,12 @@ app.get('/export/:userid', async (req, res) => {
     queryData.restricted_token = req.query.restricted_token;
     logString += ' with restricted_token';
   }
-  log.info(logString);
+  const traceSession = req.get('x-tidepool-trace-session');
+  if (traceSession) {
+    log.info(logString, { traceSession });
+  } else {
+    log.info(logString);
+  }
 
   const exportFormat = req.query.format;
 

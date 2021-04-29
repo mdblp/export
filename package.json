@@ -12,7 +12,9 @@
     "start": "node ./app.js",
     "security-checks": "npm audit --production --registry=https://registry.npmjs.org/ --audit-level=moderate",
     "build-ci": "npm run lint && npm run security-checks",
+    "prebuild-doc": "sed -i 's/\"type\": \"module\"/\"type\": \"commonjs\"/' package.json",
     "build-doc": "swagger-jsdoc -d swaggerDef.js app.js",
+    "postbuild-doc": "sed -i 's/\"type\": \"commonjs\"/\"type\": \"module\"/' package.json",
     "prebuild-soup": "mkdir -p doc/soup",
     "build-soup": "release-helper gen-dep-report doc/soup/${npm_package_name}-${npm_package_version}-soup.md"
   },
