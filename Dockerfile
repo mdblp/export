@@ -27,6 +27,7 @@ RUN \
 ### Stage 4 - Serve production-ready release
 FROM base as production
 ENV NODE_ENV=production
+ENV NODE_OPTIONS='--max-old-space-size=4096'
 RUN apk del .build-dependencies
 # Copy only `node_modules` needed to run the server
 COPY --from=dependencies /app/production_node_modules ./node_modules
@@ -40,4 +41,4 @@ RUN rm -rf /app/node_modules/@godaddy/terminus/example \
 COPY --chown=node:node . .
 USER node
 EXPOSE 9300
-CMD node -r esm ./app.js
+CMD node ./app.js
