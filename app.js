@@ -65,8 +65,9 @@ import * as CSV from 'csv-string';
 import es from 'event-stream';
 import { Registry, Counter, collectDefaultMetrics } from 'prom-client';
 import { createTerminus } from '@godaddy/terminus';
-import dataTools from './data-tools';
-import logMaker from './log';
+import healthcheck from 'express-healthcheck';
+import dataTools from './data-tools.js';
+import logMaker from './log.js';
 
 const log = logMaker('app.js', { level: process.env.DEBUG_LEVEL || 'debug' });
 
@@ -157,7 +158,7 @@ log.info('config');
  *              $ref: '#/components/schemas/ServiceStatus'
  */
 // The Health Check
-app.use('/export/status', require('express-healthcheck')());
+app.use('/export/status', healthcheck());
 
 let nExportInProgress = 0;
 app.get('/export/:userid', async (req, res) => {
@@ -314,6 +315,13 @@ const options = {
   beforeShutdown,
   onShutdown,
 };
+
+fs.promises.readFile('./package.json', { encoding: 'utf-8' }).then((pkgString) => {
+  const pkg = JSON.parse(pkgString);
+  log.info(`export service version`, pkg.version);
+}).catch((reason) => {
+  log.warn('Failed to read package.json', { reason });
+});
 
 if (config.httpPort) {
   const server = http.createServer(app);

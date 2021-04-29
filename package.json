@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "eslint *.js",
     "lint-fix": "npm run lint -- --fix",
-    "start": "node -r esm ./app.js",
+    "start": "node ./app.js",
     "security-checks": "npm audit --production --registry=https://registry.npmjs.org/ --audit-level=moderate",
     "build-ci": "npm run lint && npm run security-checks",
     "build-doc": "swagger-jsdoc -d swaggerDef.js app.js",
@@ -20,6 +20,7 @@
   "description": "Service to export data from Backloops to various file formats",
   "author": "Lennart Goedhart <lennart@tidepool.org>",
   "private": false,
+  "type": "module",
   "engines": {
     "node": ">=12.x",
     "npm": ">=7.x"
@@ -31,7 +32,6 @@
     "bunyan": "1.8.15",
     "commander": "^4.1.1",
     "csv-string": "^3.1.6",
-    "esm": "^3.2.25",
     "event-stream": "^4.0.1",
     "exceljs": "^3.8.0",
     "express": "4.17.1",
