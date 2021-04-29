@@ -19,15 +19,15 @@ module.exports =
   },
   "servers": [
     {
-      "url": "https://api.android-qa.your-loops.dev/metadata",
+      "url": "https://api.android-qa.your-loops.dev/export",
       "description": "Staging for Android development team"
     },
     {
-      "url": "https://api.your-loops.com/metadata",
+      "url": "https://api.your-loops.com/export",
       "description": "Commercial"
     },
     {
-      "url": "https://api.clinical.your-loops.com/metadata",
+      "url": "https://api.clinical.your-loops.com/export",
       "description": "Clinical"
     }
   ]
