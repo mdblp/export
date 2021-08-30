@@ -23,7 +23,7 @@ import flatten from 'flat';
 import Excel from 'exceljs';
 import createLogger from './log.js';
 
-const MMOL_TO_MGDL = 18.01559;
+const MMOL_TO_MGDL = 18.01577;
 const EXPORT_ERROR = 'Due to the size of your export, Tidepool was unable to retrieve all of your data at one time. '
                    + 'If your data appears incomplete, try the export again using a smaller date range.';
 
@@ -282,8 +282,13 @@ export default class TidepoolDataTools {
     return JSONStream.parse('*');
   }
 
-  static tidepoolProcessor(processorConfig = {}) {
+  static tidepoolProcessor(processorConfig = {}, filteredType = false) {
     return es.mapSync((data) => {
+      if(filteredType.length > 0) {
+        if (filteredType.indexOf(data.type) < 0) {
+          return;
+        }
+      }
       // Synthesize the 'localTime' field
       this.addLocalTime(data);
       // Stringify objects configured with { "stringify": true }
