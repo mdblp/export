@@ -282,7 +282,7 @@ export default class TidepoolDataTools {
     return JSONStream.parse('*');
   }
 
-  static tidepoolProcessor(processorConfig = {}, filteredType = false) {
+  static tidepoolProcessor(processorConfig = {}, filteredType = []) {
     return es.mapSync((data) => {
       if(filteredType.length > 0) {
         if (filteredType.indexOf(data.type) < 0) {
