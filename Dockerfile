@@ -28,7 +28,8 @@ RUN \
 FROM base as production
 ENV NODE_ENV=production
 ENV NODE_OPTIONS='--max-old-space-size=4096'
-RUN apk del .build-dependencies
+RUN apk del .build-dependencies && \
+    npm uninstall npm -g
 # Copy only `node_modules` needed to run the server
 COPY --from=dependencies /app/production_node_modules ./node_modules
 # @godaddy/terminus has an example folder with a package.json file
