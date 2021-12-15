@@ -5,7 +5,7 @@ ENV NEXUS_TOKEN=$npm_token
 WORKDIR /app
 RUN apk --no-cache update && \
     apk --no-cache upgrade && \
-    apk add --no-cache --virtual .build-dependencies python make g++ && \
+    apk add --no-cache --virtual .build-dependencies python3 make g++ && \
     npm install -g npm@latest && \
     mkdir -p node_modules && chown -R node:node .
 
