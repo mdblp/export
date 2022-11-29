@@ -1,6 +1,9 @@
 # Export
 Service to export YourLoops data in selected formats, either csv, json or xls.
 
+## 1.7.4 - 2022-11-29
+### Engineering
+- Security fix
 
 ## 1.7.3 - 2022-05-30
 ### Engineering
