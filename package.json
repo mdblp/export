@@ -16,7 +16,8 @@
     "build-doc": "swagger-jsdoc -d swaggerDef.js app.js",
     "postbuild-doc": "sed -i 's/\"type\": \"commonjs\"/\"type\": \"module\"/' package.json",
     "prebuild-soup": "mkdir -p doc/soup",
-    "build-soup": "release-helper gen-dep-report doc/soup/${npm_package_name}-${npm_package_version}-soup.md"
+    "build-soup": "release-helper gen-dep-report doc/soup/${npm_package_name}-${npm_package_version}-soup.md",
+    "postinstall": "rm -rf $(find . -type d -path \"**/resolve/test\" -maxdepth 10)"
   },
   "license": "BSD-2-Clause",
   "description": "Service to export data from Backloops to various file formats",
