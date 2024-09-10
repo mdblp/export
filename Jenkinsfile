@@ -1,6 +1,8 @@
 @Library('mdblp-library') _
 pipeline {
-    agent any
+    agent {
+            label 'blp'
+        }
     stages {
         stage('Initialization') {
             steps {
@@ -18,6 +20,7 @@ pipeline {
             agent {
                 docker {
                     image "docker.ci.diabeloop.eu/node-build:18"
+                    label 'blp'
                 }
             }
             steps {
