@@ -1,6 +1,6 @@
 {
   "name": "export",
-  "version": "1.8.8",
+  "version": "1.8.9",
   "main": "app.js",
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
   "dependencies": {
     "@godaddy/terminus": "^4.6.0",
     "axios": "^1.6.4",
-    "body-parser": "1.20.1",
+    "body-parser": "^1.20.3",
     "bunyan": "1.8.15",
     "commander": "^4.1.1",
     "csv-string": "^3.1.6",
